@@ -1,0 +1,741 @@
+{
+	"name": "AzureSqlTable3",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ODSUT",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Equipment",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ManufacturingSerialNumber",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MaterialNumber",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AssetId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CreationDate",
+				"type": "date"
+			},
+			{
+				"name": "MainRevision",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SerialNumber",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ObjectStatus",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SoldToPartyId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SoldToPartyName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SoldToPartyCountry",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SoldToPartyStateProvince",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SoldToPartyRegion",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SoldToPartySubRegion",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SoldToPartySubRegionCluster",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ShipToPartyId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ShipToPartyName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ShipToPartyCountry",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ShipToPartyStateProvince",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ShipToPartyRegion",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ShipToPartySubRegion",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ShipToPartySubRegionCluster",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SalesforceSoldToPartyId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SalesforceSoldToPartyName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SalesforceSoldToPartyCountry",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SalesforceSoldToPartyStateProvince",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SalesforceSoldToPartyRegion",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SalesforceSoldToPartySubRegion",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SalesforceSoldToPartySubRegionCluster",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BYDSoldToPartyId",
+				"type": "varchar"
+			},
+			{
+				"name": "BYDSoldToPartyName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BYDSoldToPartyCountry",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BYDSoldToPartyStateProvince",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BYDSoldToPartyRegion",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BYDSoldToPartySubRegion",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BYDSoldToPartySubRegionCluster",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ECCSoldToPartyId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ECCSoldToPartyName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ECCSoldToPartyCountry",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ECCSoldToPartyStateProvince",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ECCSoldToPartyRegion",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ECCSoldToPartySubRegion",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ECCSoldToPartySubRegionCluster",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BYDShipToPartyId",
+				"type": "varchar"
+			},
+			{
+				"name": "BYDShipToPartyName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BYDShipToPartyCountry",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BYDShipToPartyStateProvince",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BYDShipToPartyRegion",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BYDShipToPartySubRegion",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BYDShipToPartySubRegionCluster",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ECCShipToPartyId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ECCShipToPartyName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ECCShipToPartyCountry",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ECCShipToPartyStateProvince",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ECCShipToPartyRegion",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ECCShipToPartySubRegion",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ECCShipToPartySubRegionCluster",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MaterialDescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MaterialGroup",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MaterialGroupDescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MaterialProductHierarchy",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MaterialProductHierarchyDescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MaterialSerialNumberProfile",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MaterialPriceGroup",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MaterialPriceGroupDescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AssetName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AssetRecordType",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AssetActive",
+				"type": "bit"
+			},
+			{
+				"name": "KitAsset",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AssetLatestDateForInstallation",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "AssetLatestDateForRegistration",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "AssetOpportunityId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AssetInactiveReason",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AssetInstallationDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "AssetRegistrationDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "AssetSalesOrderId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AssetSalesOrderLineId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AssetSalesOrderDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "AssetShippingDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "AssetStatus",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AssetSystemAsset",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Project",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ProjectName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ProjectStatus",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ProjectId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AccountPartyId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AccountPartyName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AccountPartyECCId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AccountPartyStateProvince",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AccountPartyCountry",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AccountPartyRegion",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AccountPartySubRegion",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AccountPartySubRegionCluster",
+				"type": "nvarchar"
+			},
+			{
+				"name": "InstalledAtPartyId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "InstalledAtPartyName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "InstalledAtPartyECCId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "InstalledAtPartyStateProvince",
+				"type": "nvarchar"
+			},
+			{
+				"name": "InstalledAtPartyCountry",
+				"type": "nvarchar"
+			},
+			{
+				"name": "InstalledAtPartyRegion",
+				"type": "nvarchar"
+			},
+			{
+				"name": "InstalledAtPartySubRegion",
+				"type": "nvarchar"
+			},
+			{
+				"name": "InstalledAtPartySubRegionCluster",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EndCustomerPartyId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EndCustomerPartyName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EndCustomerPartyECCId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EndCustomerPartyStateProvince",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EndCustomerPartyCountry",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EndCustomerPartyRegion",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EndCustomerPartySubRegion",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EndCustomerPartySubRegionCluster",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ProductModelLevel3",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ProductModelLevel2",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ProductModelLevel1",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ProfitCenterCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ProfitCenterName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ProductFamily",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ProductFamilyCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ProductBusinessGroupCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ProductBusinessGroupName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ProductDivisionCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ProductDivisionName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SerialId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ReferenceProduct",
+				"type": "nvarchar"
+			},
+			{
+				"name": "WarrantyStartDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "WarrantyEndDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "WarrantyTerm",
+				"type": "nvarchar"
+			},
+			{
+				"name": "WarrantyNonStandardTerms",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PassedContractName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PassedContractNumber",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PassedContractOrigin",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PassedContractStartDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "PassedContractEndDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "PassedContractStatus",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PassedContractCount",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CurrentContractName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CurrentContractNumber",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CurrentContractOrigin",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CurrentContractStartDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "CurrentContractEndDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "CurrentContractStatus",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CurrentContractCount",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FutureContractName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FutureContractNumber",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FutureContractOrigin",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FutureContractStartDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "FutureContractEndDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "FutureContractStatus",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FutureContractCount",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CreatedETLRunId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ModifiedETLRunId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CreatedETLRunTimestamp",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "ModifiedETLRunTimestamp",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "ProductXPlantStatus",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ProductEOSDate",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ProductEOLDate",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AssetNoSalesOrderLineId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AssetNoSalesOrderId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AssetNoSalesOrderDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "ProductOrigin",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ProductDemoRequest",
+				"type": "bit"
+			},
+			{
+				"name": "DemoProductRegion",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PassedContractProfitCenterName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PassedContractTemplate",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PassedContractDatesStatus",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CurrentContractProfitCenterName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CurrentContractTemplate",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CurrentContractDatesStatus",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FutureContractProfitCenterName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FutureContractTemplate",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FutureContractDatesStatus",
+				"type": "nvarchar"
+			},
+			{
+				"name": "WarrantyCodeLegacy",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ShippingDateLegacy",
+				"type": "date"
+			}
+		],
+		"typeProperties": {
+			"schema": "SAPBW",
+			"table": "SerialInformation"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,157 @@
+{
+	"name": "ds_data_eng_ss_IBASE",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ROWID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "COMPONENTNR",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "MATERIAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MATERIALDESCRIPTION",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MANUFSERIALNR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SOLDTO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SOLDTODESCRIPTION",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SHIPTO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SHIPTODESCRIPTION",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SHIPTOREGION",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SHIPTOCOUNTRY",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SHIPTOSTATE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SALESORDER",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SALESORDERLINE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SHIPPINGDATE",
+				"type": "date"
+			},
+			{
+				"name": "CREATIONDATE",
+				"type": "date"
+			},
+			{
+				"name": "WARRANTY",
+				"type": "nvarchar"
+			},
+			{
+				"name": "WARRANTYSTART",
+				"type": "date"
+			},
+			{
+				"name": "WARRANTYEND",
+				"type": "date"
+			},
+			{
+				"name": "CONTRACTDESCRIPTION",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CONTRACTTEMPLATE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CONTRACTMAINITEM",
+				"type": "varchar"
+			},
+			{
+				"name": "CONTRACTSTART",
+				"type": "date"
+			},
+			{
+				"name": "CONTRACTEND",
+				"type": "date"
+			},
+			{
+				"name": "CURRENTDATE",
+				"type": "date"
+			},
+			{
+				"name": "CONTRACT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "INSTALLEDAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ADDRESSLINE0",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ADDRESSLINE1",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ADDRESSLINE2",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ADDRESSLINE3",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ADDRESSLINE4",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ADDRESSLINE5",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ADDRESSLINE6",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "IBASE"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

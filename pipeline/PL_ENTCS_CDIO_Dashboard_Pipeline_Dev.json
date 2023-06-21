@@ -1,0 +1,377 @@
+{
+	"name": "PL_ENTCS_CDIO_Dashboard_Pipeline_Dev",
+	"properties": {
+		"activities": [
+			{
+				"name": "deviceRegistryService_AzureSqlServer_CopyActivity",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "fetchIamToken",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"httpRequestTimeout": "00:02:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "GET",
+						"additionalHeaders": {
+							"Authorization": {
+								"value": "@concat('Bearer ',activity('fetchIamToken').output.access_token)",
+								"type": "Expression"
+							}
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "['article']"
+								},
+								"sink": {
+									"name": "article",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['serial']"
+								},
+								"sink": {
+									"name": "serial",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['type']"
+								},
+								"sink": {
+									"name": "type",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['status']"
+								},
+								"sink": {
+									"name": "status",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['softwareVersion']"
+								},
+								"sink": {
+									"name": "softwareVersion",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['latestConnectionDate']"
+								},
+								"sink": {
+									"name": "latestConnectionDate",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"path": "['hwCoverageEnd']"
+								},
+								"sink": {
+									"name": "hwCoverageEnd",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"path": "['hwCoverageExpired']"
+								},
+								"sink": {
+									"name": "hwCoverageExpired",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['soldToAccountId']"
+								},
+								"sink": {
+									"name": "soldToAccountId",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['soldToAccountName']"
+								},
+								"sink": {
+									"name": "soldToAccountName",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['partnerAccountId']"
+								},
+								"sink": {
+									"name": "partnerAccountId",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['partnerAccountName']"
+								},
+								"sink": {
+									"name": "partnerAccountName",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['customerAccount']"
+								},
+								"sink": {
+									"name": "customerAccount",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['address']"
+								},
+								"sink": {
+									"name": "address",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['zip']"
+								},
+								"sink": {
+									"name": "zip",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['city']"
+								},
+								"sink": {
+									"name": "city",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['state']"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['country']"
+								},
+								"sink": {
+									"name": "country",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['contactName']"
+								},
+								"sink": {
+									"name": "contactName",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['contactEmail']"
+								},
+								"sink": {
+									"name": "contactEmail",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['contactPhone']"
+								},
+								"sink": {
+									"name": "contactPhone",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['deviceFriendlyName']"
+								},
+								"sink": {
+									"name": "deviceFriendlyName",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['warrantyEnd']"
+								},
+								"sink": {
+									"name": "warrantyEnd",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"path": "['warrantyExpired']"
+								},
+								"sink": {
+									"name": "warrantyExpired",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['serviceContract']"
+								},
+								"sink": {
+									"name": "serviceContract",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['serviceContractEnd']"
+								},
+								"sink": {
+									"name": "serviceContractEnd",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"path": "['registrationDate']"
+								},
+								"sink": {
+									"name": "registrationDate",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"path": "['accountId']"
+								},
+								"sink": {
+									"name": "accountId",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['deviceId']"
+								},
+								"sink": {
+									"name": "deviceId",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['productLine']"
+								},
+								"sink": {
+									"name": "productLine",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['productTeam']"
+								},
+								"sink": {
+									"name": "productTeam",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['shippingDate']"
+								},
+								"sink": {
+									"name": "shippingDate",
+									"type": "DateTime"
+								}
+							}
+						],
+						"collectionReference": "$['deviceList']",
+						"mapComplexValuesToString": false
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_drs_devices_dev",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_azureSqlDb_deviceOverview",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "fetchIamToken",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://iam-devstable.cmp.barco.cloud/auth/realms/EDP/protocol/openid-connect/token",
+					"method": "POST",
+					"headers": {
+						"Content-Type": "application/x-www-form-urlencoded",
+						"Authorization": "Basic c2VydmljZToxN2RiMDE2NS1jNDJiLTRiZjMtODgxZi00YjA2YmQ1MjAzNGY="
+					},
+					"body": "username=svc.iotcoco.device&password=77JDv3LayU8wzd2wD&scope=cmp.de.insights.read&grant_type=password"
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2021-10-13T20:47:05Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

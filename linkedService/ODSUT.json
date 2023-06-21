@@ -1,0 +1,12 @@
+{
+	"name": "ODSUT",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"connectionString": "integrated security=False;encrypt=True;connection timeout=30;data source=it-ods-uat-we-sql-001.database.windows.net;initial catalog=it-ods-uat-we-sqldb-001;user id=DEVICEREGISTRY",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQDQ5ODczQzEwLTE0RTYtNEM5RC04MzI1LTcxRTA2OEY4Mjg0OV8yZjk5MTcyOC1kMDUxLTQyNzAtYjJhYS0xODM4ZjU5NWYyYjYiDQp9"
+		}
+	}
+}

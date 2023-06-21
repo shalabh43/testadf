@@ -1,0 +1,17 @@
+{
+	"name": "DS_SAPCRMFileSystem",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_Barco_File_System",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "FileServerLocation"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

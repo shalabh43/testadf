@@ -1,0 +1,16 @@
+{
+	"name": "ds_drs_devices_endpoint_30k_35k",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_drs_pr",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"typeProperties": {
+			"relativeUrl": "/api/v1/devices?$selectMode=deviceOverview&$filter=productTeam%20%3D%20%27ENTCS%27&$top=5000&$skip=30000"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

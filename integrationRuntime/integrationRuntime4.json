@@ -1,0 +1,12 @@
+{
+	"name": "integrationRuntime4",
+	"properties": {
+		"type": "SelfHosted",
+		"typeProperties": {
+			"linkedInfo": {
+				"resourceId": "/subscriptions/6a990767-d199-4579-a338-50cacbd087f4/resourcegroups/testvwanvpn/providers/Microsoft.DataFactory/factories/ne-testsapcrm-dev-adf-001/integrationruntimes/selfhosted2",
+				"authorizationType": "Rbac"
+			}
+		}
+	}
+}

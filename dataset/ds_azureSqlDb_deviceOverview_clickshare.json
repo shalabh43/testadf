@@ -1,0 +1,128 @@
+{
+	"name": "ds_azureSqlDb_deviceOverview_clickshare",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase3",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "article",
+				"type": "nvarchar"
+			},
+			{
+				"name": "serial",
+				"type": "nvarchar"
+			},
+			{
+				"name": "type",
+				"type": "nvarchar"
+			},
+			{
+				"name": "status",
+				"type": "nvarchar"
+			},
+			{
+				"name": "softwareVersion",
+				"type": "nvarchar"
+			},
+			{
+				"name": "latestConnectionDate",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "hwCoverageEnd",
+				"type": "date"
+			},
+			{
+				"name": "hwCoverageExpired",
+				"type": "nvarchar"
+			},
+			{
+				"name": "soldToAccountId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "soldToAccountName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "customerAccount",
+				"type": "nvarchar"
+			},
+			{
+				"name": "country",
+				"type": "nvarchar"
+			},
+			{
+				"name": "deviceFriendlyName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "warrantyEnd",
+				"type": "date"
+			},
+			{
+				"name": "warrantyExpired",
+				"type": "nvarchar"
+			},
+			{
+				"name": "serviceContract",
+				"type": "nvarchar"
+			},
+			{
+				"name": "serviceContractEnd",
+				"type": "date"
+			},
+			{
+				"name": "registrationDate",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "accountId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "deviceId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "meetingRoom",
+				"type": "nvarchar"
+			},
+			{
+				"name": "location",
+				"type": "nvarchar"
+			},
+			{
+				"name": "shippingDate",
+				"type": "date"
+			},
+			{
+				"name": "cloudServiceLevel",
+				"type": "nvarchar"
+			},
+			{
+				"name": "productLine",
+				"type": "nvarchar"
+			},
+			{
+				"name": "productTeam",
+				"type": "nvarchar"
+			},
+			{
+				"name": "productCategory",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DeviceOverview_Clickshare_New"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

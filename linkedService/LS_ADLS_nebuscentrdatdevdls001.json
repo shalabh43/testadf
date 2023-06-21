@@ -1,0 +1,11 @@
+{
+	"name": "LS_ADLS_nebuscentrdatdevdls001",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://dataengdlstorage.dfs.core.windows.net/"
+		}
+	}
+}

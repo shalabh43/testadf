@@ -1,0 +1,16 @@
+{
+	"name": "ds_drs_devices_endpoint_clickshare_0k_5k",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_drs_pr",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"typeProperties": {
+			"relativeUrl": "/api/v1/devices?$selectMode=deviceOverview&$filter=productTeam%20%3D%20%27XMS%27%20and%20%28status%20%3D%20%27Registered%27%20or%20status%20%3D%20%27Connected%27%29&$top=5000&$skip={offset}"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,1169 @@
+{
+	"name": "PL_Device_Registry_Service",
+	"properties": {
+		"activities": [
+			{
+				"name": "DRS_AzureSqlServer_ENTCS_CopyActivity",
+				"description": "This activity fetches the data for product team ENTCS and copies it to Azure SQL database.",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "fetchIamToken",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"httpRequestTimeout": "00:05:01",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "GET",
+						"additionalHeaders": {
+							"Authorization": {
+								"value": "@concat('Bearer ',activity('fetchIamToken').output.access_token)",
+								"type": "Expression"
+							}
+						},
+						"paginationRules": {
+							"QueryParameters.{offset}": "RANGE:0:100000:5000"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "IF OBJECT_ID(N'dbo.DeviceOverview_New', N'U') IS NULL\nBEGIN\nCREATE TABLE [dbo].[DeviceOverview_New](\n\t[article] [nvarchar](200) NULL,\n\t[serial] [nvarchar](200) NULL,\n\t[type] [nvarchar](200) NULL,\n\t[status] [nvarchar](200) NULL,\n\t[softwareVersion] [nvarchar](200) NULL,\n\t[latestConnectionDate] [datetime2](7) NULL,\n\t[hwCoverageEnd] [date] NULL,\n\t[hwCoverageExpired] [nvarchar](200) NULL,\n\t[soldToAccountId] [nvarchar](200) NULL,\n\t[soldToAccountName] [nvarchar](200) NULL,\n\t[partnerAccountId] [nvarchar](200) NULL,\n\t[partnerAccountName] [nvarchar](200) NULL,\n\t[customerAccount] [nvarchar](200) NULL,\n\t[address] [nvarchar](500) NULL,\n\t[zip] [nvarchar](200) NULL,\n\t[city] [nvarchar](200) NULL,\n\t[state] [nvarchar](200) NULL,\n\t[country] [nvarchar](200) NULL,\n\t[contactName] [nvarchar](200) NULL,\n\t[contactEmail] [nvarchar](200) NULL,\n\t[contactPhone] [nvarchar](200) NULL,\n\t[deviceFriendlyName] [nvarchar](200) NULL,\n\t[warrantyEnd] [date] NULL,\n\t[warrantyExpired] [nvarchar](200) NULL,\n\t[serviceContract] [nvarchar](200) NULL,\n\t[serviceContractEnd] [date] NULL,\n\t[registrationDate] [date] NULL,\n\t[accountId] [nvarchar](200) NULL,\n\t[deviceId] [nvarchar](200) NULL,\n\t[productLine] [nvarchar](200) NULL,\n\t[productTeam] [nvarchar](200) NULL,\n\t[cloudServiceLevel] [nvarchar](200) NULL,\n\t[shippingDate] [date] NULL\n) ON [PRIMARY] \nEND\nELSE\nBEGIN\nTRUNCATE TABLE  [dbo].[DeviceOverview_New]\nEND",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "['article']"
+								},
+								"sink": {
+									"name": "article",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['serial']"
+								},
+								"sink": {
+									"name": "serial",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['type']"
+								},
+								"sink": {
+									"name": "type",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['status']"
+								},
+								"sink": {
+									"name": "status",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['softwareVersion']"
+								},
+								"sink": {
+									"name": "softwareVersion",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['latestConnectionDate']"
+								},
+								"sink": {
+									"name": "latestConnectionDate",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"path": "['hwCoverageEnd']"
+								},
+								"sink": {
+									"name": "hwCoverageEnd",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"path": "['hwCoverageExpired']"
+								},
+								"sink": {
+									"name": "hwCoverageExpired",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['soldToAccountId']"
+								},
+								"sink": {
+									"name": "soldToAccountId",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['soldToAccountName']"
+								},
+								"sink": {
+									"name": "soldToAccountName",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['partnerAccountId']"
+								},
+								"sink": {
+									"name": "partnerAccountId",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['partnerAccountName']"
+								},
+								"sink": {
+									"name": "partnerAccountName",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['customerAccount']"
+								},
+								"sink": {
+									"name": "customerAccount",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['address']"
+								},
+								"sink": {
+									"name": "address",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['zip']"
+								},
+								"sink": {
+									"name": "zip",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['city']"
+								},
+								"sink": {
+									"name": "city",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['state']"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['country']"
+								},
+								"sink": {
+									"name": "country",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['contactName']"
+								},
+								"sink": {
+									"name": "contactName",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['contactEmail']"
+								},
+								"sink": {
+									"name": "contactEmail",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['contactPhone']"
+								},
+								"sink": {
+									"name": "contactPhone",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['deviceFriendlyName']"
+								},
+								"sink": {
+									"name": "deviceFriendlyName",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['warrantyEnd']"
+								},
+								"sink": {
+									"name": "warrantyEnd",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"path": "['warrantyExpired']"
+								},
+								"sink": {
+									"name": "warrantyExpired",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['serviceContract']"
+								},
+								"sink": {
+									"name": "serviceContract",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['serviceContractEnd']"
+								},
+								"sink": {
+									"name": "serviceContractEnd",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"path": "['registrationDate']"
+								},
+								"sink": {
+									"name": "registrationDate",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"path": "['accountId']"
+								},
+								"sink": {
+									"name": "accountId",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['deviceId']"
+								},
+								"sink": {
+									"name": "deviceId",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['productLine']"
+								},
+								"sink": {
+									"name": "productLine",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['productTeam']"
+								},
+								"sink": {
+									"name": "productTeam",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['cloudServiceLevel']"
+								},
+								"sink": {
+									"name": "cloudServiceLevel",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['shippingDate']"
+								},
+								"sink": {
+									"name": "shippingDate",
+									"type": "DateTime"
+								}
+							}
+						],
+						"collectionReference": "$['deviceList']",
+						"mapComplexValuesToString": false
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_drs_devices_endpoint_0k_5k",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_azureSqlDb_deviceOverview",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "fetchIamToken",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://iam.cmp.barco.com/auth/realms/EDP/protocol/openid-connect/token",
+					"method": "POST",
+					"headers": {
+						"Content-Type": "application/x-www-form-urlencoded",
+						"Authorization": "Basic aW90LnNlcnZpY2U6MGFlN2FmYzMtNTU5MS00OTg3LWIwYTMtYmZhN2JjYWU0MzU1"
+					},
+					"body": "username=svc.iot.configuration&password=Wd50jt04suk02v72&scope=cmp.de.drs.device.read&grant_type=password"
+				}
+			},
+			{
+				"name": "DRS_AzureSqlServer_VideoWall_CopyActivity",
+				"description": "This activity fetches the data for product team ENTCS and copies it to Azure SQL database.",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "fetchIamToken_1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"httpRequestTimeout": "00:10:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "GET",
+						"additionalHeaders": {
+							"Authorization": {
+								"value": "@concat('Bearer ',activity('fetchIamToken_1').output.access_token)",
+								"type": "Expression"
+							}
+						},
+						"paginationRules": {
+							"supportRFC5988": "true",
+							"QueryParameters.{offset}": "RANGE:0:120000:5000"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "IF OBJECT_ID(N'dbo.DeviceOverview_VideoWall_New', N'U') IS NULL\nBEGIN\nCREATE TABLE [dbo].[DeviceOverview_VideoWall_New](\n\tarticle nvarchar(200),\n      serial nvarchar(200),\n      type nvarchar(200),\n      status nvarchar(200),\n      softwareVersion nvarchar(200),\n      latestConnectionDate datetime2(7),\n      hwCoverageEnd date,\n      hwCoverageExpired nvarchar(200),\n      soldToAccountId nvarchar(200),\n      soldToAccountName nvarchar(200),\n      partnerAccountId nvarchar(200),\n      partnerAccountName nvarchar(200),\n      customerAccount nvarchar(200),\n      address nvarchar(200),\n      zip nvarchar(200),\n      city nvarchar(200),\n      state nvarchar(200),\n      country nvarchar(200),\n      contactName nvarchar(200),\n      contactEmail nvarchar(200),\n      contactPhone nvarchar(200),\n      deviceFriendlyName nvarchar(200),\n      warrantyEnd date,\n      warrantyExpired nvarchar(200),\n      serviceContract nvarchar(200),\n      serviceContractEnd date,\n      registrationDate datetime2(7),\n      accountId nvarchar(200),\n      deviceId nvarchar(200),\n      productLine nvarchar(200),\n      productTeam nvarchar(200),\n      shippingDate date,\n      wallSize nvarchar(200),\n      application nvarchar(200),\n      industry nvarchar(200),\n      systemName nvarchar(200),\n      cloudServiceLevel nvarchar(200)\n) ON [PRIMARY] \nEND\nELSE\nBEGIN\nTRUNCATE TABLE  [dbo].[DeviceOverview_VideoWall_New]\nEND",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "['article']"
+								},
+								"sink": {
+									"name": "article",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['serial']"
+								},
+								"sink": {
+									"name": "serial",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['type']"
+								},
+								"sink": {
+									"name": "type",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['status']"
+								},
+								"sink": {
+									"name": "status",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['softwareVersion']"
+								},
+								"sink": {
+									"name": "softwareVersion",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['latestConnectionDate']"
+								},
+								"sink": {
+									"name": "latestConnectionDate",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"path": "['hwCoverageEnd']"
+								},
+								"sink": {
+									"name": "hwCoverageEnd",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"path": "['hwCoverageExpired']"
+								},
+								"sink": {
+									"name": "hwCoverageExpired",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['soldToAccountId']"
+								},
+								"sink": {
+									"name": "soldToAccountId",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['soldToAccountName']"
+								},
+								"sink": {
+									"name": "soldToAccountName",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['partnerAccountId']"
+								},
+								"sink": {
+									"name": "partnerAccountId",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['partnerAccountName']"
+								},
+								"sink": {
+									"name": "partnerAccountName",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['customerAccount']"
+								},
+								"sink": {
+									"name": "customerAccount",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['address']"
+								},
+								"sink": {
+									"name": "address",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['zip']"
+								},
+								"sink": {
+									"name": "zip",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['city']"
+								},
+								"sink": {
+									"name": "city",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['state']"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['country']"
+								},
+								"sink": {
+									"name": "country",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['contactName']"
+								},
+								"sink": {
+									"name": "contactName",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['contactEmail']"
+								},
+								"sink": {
+									"name": "contactEmail",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['contactPhone']"
+								},
+								"sink": {
+									"name": "contactPhone",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['deviceFriendlyName']"
+								},
+								"sink": {
+									"name": "deviceFriendlyName",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['warrantyEnd']"
+								},
+								"sink": {
+									"name": "warrantyEnd",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"path": "['warrantyExpired']"
+								},
+								"sink": {
+									"name": "warrantyExpired",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['serviceContract']"
+								},
+								"sink": {
+									"name": "serviceContract",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['serviceContractEnd']"
+								},
+								"sink": {
+									"name": "serviceContractEnd",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"path": "['registrationDate']"
+								},
+								"sink": {
+									"name": "registrationDate",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"path": "['accountId']"
+								},
+								"sink": {
+									"name": "accountId",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['deviceId']"
+								},
+								"sink": {
+									"name": "deviceId",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['productLine']"
+								},
+								"sink": {
+									"name": "productLine",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['productTeam']"
+								},
+								"sink": {
+									"name": "productTeam",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['shippingDate']"
+								},
+								"sink": {
+									"name": "shippingDate",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"path": "['wallSize']"
+								},
+								"sink": {
+									"name": "wallSize",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['application']"
+								},
+								"sink": {
+									"name": "application",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['industry']"
+								},
+								"sink": {
+									"name": "industry",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['systemName']"
+								},
+								"sink": {
+									"name": "systemName",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['cloudServiceLevel']"
+								},
+								"sink": {
+									"name": "cloudServiceLevel",
+									"type": "String"
+								}
+							}
+						],
+						"collectionReference": "$['deviceList']",
+						"mapComplexValuesToString": false
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_drs_devices_endpoint_videowall_0k_5k",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_azureSqlDb_deviceOverview_videowall",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "fetchIamToken_1",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "DRS_AzureSqlServer_ENTCS_CopyActivity",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://iam.cmp.barco.com/auth/realms/EDP/protocol/openid-connect/token",
+					"method": "POST",
+					"headers": {
+						"Content-Type": "application/x-www-form-urlencoded",
+						"Authorization": "Basic aW90LnNlcnZpY2U6MGFlN2FmYzMtNTU5MS00OTg3LWIwYTMtYmZhN2JjYWU0MzU1"
+					},
+					"body": "username=svc.iot.configuration&password=Wd50jt04suk02v72&scope=cmp.de.drs.device.read&grant_type=password"
+				}
+			},
+			{
+				"name": "DRS_AzureSqlServer_Clickshare_CopyActivity",
+				"description": "This activity fetches the data for product team ENTCS and copies it to Azure SQL database.",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "fetchIamToken_2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"httpRequestTimeout": "00:10:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "GET",
+						"additionalHeaders": {
+							"Authorization": {
+								"value": "@concat('Bearer ',activity('fetchIamToken').output.access_token)",
+								"type": "Expression"
+							}
+						},
+						"paginationRules": {
+							"supportRFC5988": "true",
+							"QueryParameters.{offset}": "RANGE:0:200000:5000"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "IF OBJECT_ID(N'dbo.DeviceOverview_Clickshare_New', N'U') IS NULL\nBEGIN\nCREATE TABLE [dbo].[DeviceOverview_Clickshare_New](\n\t[article] [nvarchar](200) NULL,\n\t[serial] [nvarchar](200) NULL,\n\t[type] [nvarchar](200) NULL,\n\t[status] [nvarchar](200) NULL,\n\t[softwareVersion] [nvarchar](200) NULL,\n\t[latestConnectionDate] [datetime2](7) NULL,\n\t[hwCoverageEnd] [date] NULL,\n\t[hwCoverageExpired] [nvarchar](200) NULL,\n\t[soldToAccountId] [nvarchar](200) NULL,\n\t[soldToAccountName] [nvarchar](200) NULL,\n\t[customerAccount] [nvarchar](200) NULL,\n\t[country] [nvarchar](200) NULL,\n\t[deviceFriendlyName] [nvarchar](200) NULL,\n\t[warrantyEnd] [date] NULL,\n\t[warrantyExpired] [nvarchar](200) NULL,\n\t[serviceContract] [nvarchar](200) NULL,\n\t[serviceContractEnd] [date] NULL,\n\t[registrationDate] [datetime2](7) NULL,\n\t[accountId] [nvarchar](200) NULL,\n\t[deviceId] [nvarchar](200) NULL,\n\t[meetingRoom] [nvarchar](200) NULL,\n\t[location] [nvarchar](200) NULL,\n\t[shippingDate] [date] NULL,\n\t[cloudServiceLevel] [nvarchar](200) NULL,\n\t[productLine] [nvarchar](200) NULL,\n\t[productTeam] [nvarchar](200) NULL,\n\t[productCategory] [nvarchar](200) NULL\t\n) ON [PRIMARY] \nEND\nELSE\nBEGIN\nTRUNCATE TABLE  [dbo].[DeviceOverview_Clickshare_New]\nEND",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "['article']"
+								},
+								"sink": {
+									"name": "article",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['serial']"
+								},
+								"sink": {
+									"name": "serial",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['type']"
+								},
+								"sink": {
+									"name": "type",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['status']"
+								},
+								"sink": {
+									"name": "status",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['softwareVersion']"
+								},
+								"sink": {
+									"name": "softwareVersion",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['latestConnectionDate']"
+								},
+								"sink": {
+									"name": "latestConnectionDate",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['hwCoverageEnd']"
+								},
+								"sink": {
+									"name": "hwCoverageEnd",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"path": "['hwCoverageExpired']"
+								},
+								"sink": {
+									"name": "hwCoverageExpired",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['soldToAccountId']"
+								},
+								"sink": {
+									"name": "soldToAccountId",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['soldToAccountName']"
+								},
+								"sink": {
+									"name": "soldToAccountName",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['customerAccount']"
+								},
+								"sink": {
+									"name": "customerAccount",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['country']"
+								},
+								"sink": {
+									"name": "country",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['deviceFriendlyName']"
+								},
+								"sink": {
+									"name": "deviceFriendlyName",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['warrantyEnd']"
+								},
+								"sink": {
+									"name": "warrantyEnd",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"path": "['warrantyExpired']"
+								},
+								"sink": {
+									"name": "warrantyExpired",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['serviceContract']"
+								},
+								"sink": {
+									"name": "serviceContract",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['serviceContractEnd']"
+								},
+								"sink": {
+									"name": "serviceContractEnd",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"path": "['registrationDate']"
+								},
+								"sink": {
+									"name": "registrationDate",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"path": "['accountId']"
+								},
+								"sink": {
+									"name": "accountId",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['deviceId']"
+								},
+								"sink": {
+									"name": "deviceId",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['meetingRoom']"
+								},
+								"sink": {
+									"name": "meetingRoom",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['location']"
+								},
+								"sink": {
+									"name": "location",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['productLine']"
+								},
+								"sink": {
+									"name": "productLine",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['productTeam']"
+								},
+								"sink": {
+									"name": "productTeam",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['productCategory']"
+								},
+								"sink": {
+									"name": "productCategory",
+									"type": "String"
+								}
+							}
+						],
+						"collectionReference": "$['deviceList']",
+						"mapComplexValuesToString": true
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_drs_devices_endpoint_clickshare_0k_5k",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_azureSqlDb_deviceOverview_clickshare",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "fetchIamToken_2",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "DRS_AzureSqlServer_VideoWall_CopyActivity",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://iam.cmp.barco.com/auth/realms/EDP/protocol/openid-connect/token",
+					"method": "POST",
+					"headers": {
+						"Content-Type": "application/x-www-form-urlencoded",
+						"Authorization": "Basic aW90LnNlcnZpY2U6MGFlN2FmYzMtNTU5MS00OTg3LWIwYTMtYmZhN2JjYWU0MzU1"
+					},
+					"body": "username=svc.iot.configuration&password=Wd50jt04suk02v72&scope=cmp.de.drs.device.read&grant_type=password"
+				}
+			},
+			{
+				"name": "Merge_Data_SQL_Table",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "DRS_AzureSqlServer_Clickshare_CopyActivity",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[Upsert_DeviceOverview_Table]"
+				},
+				"linkedServiceName": {
+					"referenceName": "ls_dep_data_prd01_ss",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2022-07-21T05:21:09Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

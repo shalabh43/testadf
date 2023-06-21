@@ -1,0 +1,16 @@
+{
+	"name": "ds_drs_devices_endpoint_videowall_70k_75k",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_drs_pr",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"typeProperties": {
+			"relativeUrl": "/api/v1/devices?$selectMode=deviceOverview&$filter=productTeam%20%3D%20%27VIDEOWALL%27&$top=5000&$skip=70000"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

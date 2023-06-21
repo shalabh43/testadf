@@ -1,0 +1,17 @@
+{
+	"name": "LS_Barco_File_System",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "FileServer",
+		"typeProperties": {
+			"host": "\\\\Korfls07\\sapcrm\\Lake\\Final",
+			"userId": "shalabh.agarwal@barco.com",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI3MzU4NDM5Yy05MjAxLTRiMDctOWViNC01MjQ4Y2U2MGI3MGIiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "integrationRuntime4",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

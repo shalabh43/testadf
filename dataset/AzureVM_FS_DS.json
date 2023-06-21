@@ -1,0 +1,17 @@
+{
+	"name": "AzureVM_FS_DS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureVM_shalabhtest_FS_LS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "FileServerLocation"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

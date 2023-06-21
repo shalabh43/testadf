@@ -1,0 +1,19 @@
+{
+	"name": "DS_ADLS_nebuscentrdatdevdls001",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_ADLS_nebuscentrdatdevdls001",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "SapCrmCaseHistData",
+				"fileSystem": "sapcrmcasehist"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

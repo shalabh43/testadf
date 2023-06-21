@@ -1,0 +1,20 @@
+{
+	"name": "data-eng-df",
+	"properties": {
+		"globalParameters": {
+			"abc": {
+				"type": "string",
+				"value": "def"
+			}
+		},
+		"globalConfigurations": {
+			"PipelineBillingEnabled": "true"
+		}
+	},
+	"location": "northeurope",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "86eba988-fdf8-46b4-b0b2-744ef1378c77",
+		"tenantId": "aeb84c91-6270-4446-ada5-d71ceba1d535"
+	}
+}
