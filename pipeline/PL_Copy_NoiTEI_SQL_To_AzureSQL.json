@@ -1,0 +1,10 @@
+{
+	"name": "PL_Copy_NoiTEI_SQL_To_AzureSQL",
+	"properties": {
+		"description": "Copy calibration data from Noida TEI on premise SQL DB to Azure SQL DB",
+		"folder": {
+			"name": "LVX_Calibration_PPL"
+		},
+		"annotations": []
+	}
+}
