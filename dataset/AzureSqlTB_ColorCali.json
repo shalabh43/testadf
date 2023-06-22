@@ -1,0 +1,250 @@
+{
+	"name": "AzureSqlTB_ColorCali",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase2",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "LVX_Calibration_DS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Id",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "SrId",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "PIC_FA_MOD_ART_NO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_MOD_SERIAL_NO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_PROCESS_VER",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_FMW_MERCURY",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_FMW_NIRO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_DEV_TYPE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_PROBE_TYPE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_PROBE_SN",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_DATE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_CS_SETTINGS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_CS_DARK0",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_CS_DARK1",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_OFFSET",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_GAIN",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_RAMP_IDX",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_RAMP_W_X",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_RAMP_W_Y",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_RAMP_W_Z",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_RAMP_R_X",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_RAMP_R_Y",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_RAMP_R_Z",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_RAMP_G_X",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_RAMP_G_Y",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_RAMP_G_Z",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_RAMP_B_X",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_RAMP_B_Y",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_RAMP_B_Z",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_REF_EXT_R",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_REF_EXT_G",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_REF_EXT_B",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_REF_INT_CS0",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_REF_INT_CS1",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_BL_IDX",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_BL_EXT_X",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_BL_EXT_Y",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_BL_EXT_Z",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_BL_INT_CS0_R",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_BL_INT_CS0_G",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_BL_INT_CS0_B",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_BL_INT_CS0_W",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_BL_INT_CS1_R",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_BL_INT_CS1_G",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_BL_INT_CS1_B",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PIC_FA_BL_INT_CS1_W",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Max_Current",
+				"type": "nchar"
+			},
+			{
+				"name": "Max_PWM",
+				"type": "nchar"
+			},
+			{
+				"name": "XmlReportPath",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SettingReportPath",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ColorCalibrationDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "ColorCalibrationBy",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ColorCalibrationStatus",
+				"type": "nvarchar"
+			},
+			{
+				"name": "StartTime",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "EndTime",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "TB_ColorCali"
+		}
+	}
+}
