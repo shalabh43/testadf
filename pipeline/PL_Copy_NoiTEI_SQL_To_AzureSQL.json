@@ -22,10 +22,11 @@
 						"partitionOption": "None"
 					},
 					"sink": {
-						"type": "SqlServerSink",
-						"preCopyScript": "DELETE FROM dbo.TB_ColorCali",
+						"type": "AzureSqlSink",
+						"preCopyScript": "DELETE FROM TB_ColorCali",
 						"writeBehavior": "insert",
-						"sqlWriterUseTableLock": false
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
 					},
 					"enableStaging": false,
 					"translator": {
@@ -715,7 +716,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "DS_SqlTB_ColorCali",
+						"referenceName": "DS_AzureSqlTB_ColorCali",
 						"type": "DatasetReference"
 					}
 				]
