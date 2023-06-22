@@ -1,0 +1,7 @@
+{
+	"name": "NOICLT37143",
+	"properties": {
+		"type": "SelfHosted",
+		"description": "Integration runtime in noiclt37143 machine"
+	}
+}
