@@ -1,5 +1,5 @@
 {
-	"name": "AzureSqlTB_ColorCali",
+	"name": "DS_AzureSqlTB_ColorCali",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureSqlDatabase2",

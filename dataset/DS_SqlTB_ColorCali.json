@@ -1,5 +1,5 @@
 {
-	"name": "SqlTB_ColorCali",
+	"name": "DS_SqlTB_ColorCali",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "NoiTEISQLDB",
