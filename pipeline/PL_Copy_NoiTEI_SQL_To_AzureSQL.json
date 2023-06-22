@@ -4,7 +4,7 @@
 		"description": "Copy calibration data from Noida TEI on premise SQL DB to Azure SQL DB",
 		"activities": [
 			{
-				"name": "Copy data1",
+				"name": "COPY_Display_Calibration_To_Azure_SQL",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
