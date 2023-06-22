@@ -1,0 +1,17 @@
+{
+	"name": "NoiTEISQLDB",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "SQL DB connection for Noida TEI Calibration date.",
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "integrated security=False;data source=noisql01;initial catalog=Nautilus_UCM_Test_Noida;user id=UniseeUser",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJiOGJhODc1OS1hN2U3LTQxZmYtYWNkOC1jYmI4MjczYjM0NGYiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "NOICLT37143",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
