@@ -5,7 +5,14 @@
 			{
 				"name": "Lookup_Metadata_Table",
 				"type": "Lookup",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Script_Get_CurrentDate",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -17,7 +24,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "SELECT [SourceTableName]\n      ,[DestinationTableName]\n      ,[Query]\n      ,[LastSuccessPipelineRunDate]\n  FROM [dbo].[SAPME_ODS_Metadata]",
+						"sqlReaderQuery": "SELECT [SourceSchema]\n      ,[SourceTableName]\n      ,[DestinationSchema]\n      ,[DestinationTableName]\n      ,[PreCopyScript]\n      ,[SourceQuery]\n      ,CONVERT(varchar(25),[LastSuccessPipelineRunDate],121) AS [LastSuccessPipelineRunDate]\n      ,[IsFullLoad]\n  FROM [dbo].[SAPME_ODS_Metadata]",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -48,7 +55,7 @@
 					"isSequential": true,
 					"activities": [
 						{
-							"name": "Copy data1",
+							"name": "Copy_Data_from_SAPME_ODS_to_ne_operations_sbx",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
@@ -63,7 +70,7 @@
 								"source": {
 									"type": "SqlServerSource",
 									"sqlReaderQuery": {
-										"value": "@concat(item().Query,'''',item().LastSuccessPipelineRunDate,'''')",
+										"value": "@if(equals(item().IsFullLoad, true), item().SourceQuery,replace(replace(item().SourceQuery,'FromDate',concat('''',item().LastSuccessPipelineRunDate,'''')),'ToDate',concat('''',activity('Script_Get_CurrentDate').output.resultSets[0].rows[0].CurrentDate,'''')))",
 										"type": "Expression"
 									},
 									"queryTimeout": "02:00:00",
@@ -71,11 +78,16 @@
 								},
 								"sink": {
 									"type": "AzureSqlSink",
+									"preCopyScript": {
+										"value": "@{concat(item().PreCopyScript,'''',item().LastSuccessPipelineRunDate,'''')}",
+										"type": "Expression"
+									},
 									"writeBehavior": "insert",
 									"sqlWriterUseTableLock": false,
 									"disableMetricsCollection": false
 								},
 								"enableStaging": false,
+								"dataIntegrationUnits": 2,
 								"translator": {
 									"type": "TabularTranslator",
 									"typeConversion": true,
@@ -93,6 +105,10 @@
 										"Table_Name": {
 											"value": "@item().SourceTableName",
 											"type": "Expression"
+										},
+										"Schema": {
+											"value": "@item().SourceSchema",
+											"type": "Expression"
 										}
 									}
 								}
@@ -105,23 +121,81 @@
 										"Table_Name": {
 											"value": "@item().DestinationTableName",
 											"type": "Expression"
+										},
+										"Schema": {
+											"value": "@item().DestinationSchema",
+											"type": "Expression"
 										}
 									}
 								}
 							]
+						},
+						{
+							"name": "Script_Update_LastSuccessPipelineRunDate",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Copy_Data_from_SAPME_ODS_to_ne_operations_sbx",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "LS_ne_operations_sbx_sql_001",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "NonQuery",
+										"text": {
+											"value": "@concat('UPDATE SAPME_ODS_Metadata SET LastSuccessPipelineRunDate = ','''',activity('Script_Get_CurrentDate').output.resultSets[0].rows[0].CurrentDate,'''','WHERE DestinationTableName = ','''',item().DestinationTableName,'''')",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
 						}
 					]
 				}
+			},
+			{
+				"name": "Script_Get_CurrentDate",
+				"type": "Script",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "LS_ne_operations_sbx_sql_001",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "Select CONVERT(varchar(25), CAST(CAST(GETDATE() AS DATE) AS DATETIME), 121) AS CurrentDate"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
 			}
 		],
-		"variables": {
-			"test": {
-				"type": "Array"
-			},
-			"teststring": {
-				"type": "String"
-			}
-		},
 		"annotations": []
 	}
 }
