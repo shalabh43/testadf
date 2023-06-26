@@ -1,0 +1,17 @@
+{
+	"name": "LS_SQLServer_DBSMFGPRD",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "integrated security=True;data source=DBSMFGPRD;initial catalog=SAPME_ODS",
+			"userName": "BARCO\\SHAAGA",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI1M2QwNzBkOS0yYmE5LTRlM2EtOThlMi0xZmY2MDYyMjdhYzgiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "NOICLT42065",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
