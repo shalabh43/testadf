@@ -1,0 +1,37 @@
+{
+	"name": "DS_SQLServer_DBSMFGPRD",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SQLServer_DBSMFGPRD",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"Table_Name": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "ITEM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FIELD",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VALUE",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "",
+			"table": {
+				"value": "@dataset().Table_Name",
+				"type": "Expression"
+			}
+		}
+	}
+}

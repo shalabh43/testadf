@@ -1,6 +1,127 @@
 {
 	"name": "SAPME_ODS",
 	"properties": {
+		"activities": [
+			{
+				"name": "Lookup_Metadata_Table",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT [SourceTableName]\n      ,[DestinationTableName]\n      ,[Query]\n      ,[LastSuccessPipelineRunDate]\n  FROM [dbo].[SAPME_ODS_Metadata]",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DS_SAPME_ODS_Metadata",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "ForEach_SAPME_ODS_Tables",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Lookup_Metadata_Table",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Lookup_Metadata_Table').output.value",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Copy data1",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"sqlReaderQuery": {
+										"value": "@concat(item().Query,'''',item().LastSuccessPipelineRunDate,'''')",
+										"type": "Expression"
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "AzureSqlSink",
+									"writeBehavior": "insert",
+									"sqlWriterUseTableLock": false,
+									"disableMetricsCollection": false
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "DS_SQLServer_DBSMFGPRD",
+									"type": "DatasetReference",
+									"parameters": {
+										"Table_Name": {
+											"value": "@item().SourceTableName",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DS_AZSQLDB_ne_operations_sbx_sql_001_Tables",
+									"type": "DatasetReference",
+									"parameters": {
+										"Table_Name": {
+											"value": "@item().DestinationTableName",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"variables": {
+			"test": {
+				"type": "Array"
+			},
+			"teststring": {
+				"type": "String"
+			}
+		},
 		"annotations": []
 	}
 }

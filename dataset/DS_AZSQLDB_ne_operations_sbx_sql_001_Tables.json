@@ -1,0 +1,60 @@
+{
+	"name": "DS_AZSQLDB_ne_operations_sbx_sql_001_Tables",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_ne_operations_sbx_sql_001",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"Table_Name": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SourceTableName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DestinationTableName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Query",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LastSuccessPipelineRunDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "CreatedDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "ModifiedDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "",
+			"table": {
+				"value": "@dataset().Table_Name",
+				"type": "Expression"
+			}
+		}
+	}
+}
