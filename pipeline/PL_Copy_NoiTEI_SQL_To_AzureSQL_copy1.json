@@ -1,0 +1,924 @@
+{
+	"name": "PL_Copy_NoiTEI_SQL_To_AzureSQL_copy1",
+	"properties": {
+		"description": "Copy calibration data from Noida TEI on premise SQL DB to Azure SQL DB",
+		"activities": [
+			{
+				"name": "Last_Pipeline_Run_On",
+				"description": "Get Max LastPipelineRunOn Date from sink DB to apply incremental load",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "SELECT\n  CASE\n    WHEN MAX(LastPipelineRunOn) IS NULL THEN '1900-01-01 00:00:00.000'\n    ELSE MAX(LastPipelineRunOn)\n  END AS StartDate,\n  CAST(CAST(GETDATE() AS date) AS datetime) AS EndDate\nFROM SENSEX_LVX_Metadata",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DS_AzureSqlTB_ColorCali",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "EndDate",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Last_Pipeline_Run_On",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "EndDate",
+					"value": {
+						"value": "@if(equals(activity('Last_Pipeline_Run_On').output.firstRow.EndDate, null), '', activity('Last_Pipeline_Run_On').output.firstRow.EndDate)",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "StartDate",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Last_Pipeline_Run_On",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "StartDate",
+					"value": {
+						"value": "@if(equals(activity('Last_Pipeline_Run_On').output.firstRow.StartDate, null), '', activity('Last_Pipeline_Run_On').output.firstRow.StartDate)",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "If Condition1",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "EndDate",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "StartDate",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@not(equals(variables('StartDate'), variables('StartDate')))",
+						"type": "Expression"
+					},
+					"ifFalseActivities": [
+						{
+							"name": "Set variable1",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [
+								{
+									"name": "PrintVal",
+									"value": "\"Just Printing Value\""
+								}
+							],
+							"typeProperties": {
+								"variableName": "pipelineReturnValue",
+								"value": [
+									{
+										"key": "SetARetVal",
+										"value": {
+											"type": "String",
+											"content": "Return Value"
+										}
+									}
+								],
+								"setSystemVariable": true
+							}
+						}
+					],
+					"ifTrueActivities": [
+						{
+							"name": "Calibration_Data_To_Azure_SQL",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"sqlReaderQuery": {
+										"value": "SELECT [Id]\n      ,[SrId]\n      ,[PIC_FA_MOD_ART_NO]\n      ,[PIC_FA_MOD_SERIAL_NO]\n      ,[PIC_FA_PROCESS_VER]\n      ,[PIC_FA_FMW_MERCURY]\n      ,[PIC_FA_FMW_NIRO]\n      ,[PIC_FA_DEV_TYPE]\n      ,[PIC_FA_PROBE_TYPE]\n      ,[PIC_FA_PROBE_SN]\n      ,[PIC_FA_DATE]\n      ,[PIC_FA_CS_SETTINGS]\n      ,[PIC_FA_CS_DARK0]\n      ,[PIC_FA_CS_DARK1]\n      ,[PIC_FA_OFFSET]\n      ,[PIC_FA_GAIN]\n      ,[PIC_FA_RAMP_IDX]\n      ,[PIC_FA_RAMP_W_X]\n      ,[PIC_FA_RAMP_W_Y]\n      ,[PIC_FA_RAMP_W_Z]\n      ,[PIC_FA_RAMP_R_X]\n      ,[PIC_FA_RAMP_R_Y]\n      ,[PIC_FA_RAMP_R_Z]\n      ,[PIC_FA_RAMP_G_X]\n      ,[PIC_FA_RAMP_G_Y]\n      ,[PIC_FA_RAMP_G_Z]\n      ,[PIC_FA_RAMP_B_X]\n      ,[PIC_FA_RAMP_B_Y]\n      ,[PIC_FA_RAMP_B_Z]\n      ,[PIC_FA_REF_EXT_R]\n      ,[PIC_FA_REF_EXT_G]\n      ,[PIC_FA_REF_EXT_B]\n      ,[PIC_FA_REF_INT_CS0]\n      ,[PIC_FA_REF_INT_CS1]\n      ,[PIC_FA_BL_IDX]\n      ,[PIC_FA_BL_EXT_X]\n      ,[PIC_FA_BL_EXT_Y]\n      ,[PIC_FA_BL_EXT_Z]\n      ,[PIC_FA_BL_INT_CS0_R]\n      ,[PIC_FA_BL_INT_CS0_G]\n      ,[PIC_FA_BL_INT_CS0_B]\n      ,[PIC_FA_BL_INT_CS0_W]\n      ,[PIC_FA_BL_INT_CS1_R]\n      ,[PIC_FA_BL_INT_CS1_G]\n      ,[PIC_FA_BL_INT_CS1_B]\n      ,[PIC_FA_BL_INT_CS1_W]\n      ,[Max_Current]\n      ,[Max_PWM]\n      ,[XmlReportPath]\n      ,[SettingReportPath]\n      ,[ColorCalibrationDate]\n      ,[ColorCalibrationBy]\n      ,[ColorCalibrationStatus]\n      ,[StartTime]\n      ,[EndTime]\n  FROM [Nautilus_UCM_Test_Noida].[dbo].[TB_ColorCali] WHERE [ColorCalibrationDate] >= '@{variables('StartDate')}' AND [ColorCalibrationDate] < '@{variables('EndDate')}'",
+										"type": "Expression"
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "AzureSqlSink",
+									"preCopyScript": {
+										"value": "DELETE FROM TB_ColorCali\nWHERE [ColorCalibrationDate] >= '@{variables('StartDate')}'",
+										"type": "Expression"
+									},
+									"writeBehavior": "insert",
+									"sqlWriterUseTableLock": false,
+									"disableMetricsCollection": false
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"name": "Id",
+												"type": "Decimal",
+												"physicalType": "decimal",
+												"scale": 0,
+												"precision": 18
+											},
+											"sink": {
+												"name": "Id",
+												"type": "Decimal",
+												"physicalType": "decimal",
+												"scale": 0,
+												"precision": 18
+											}
+										},
+										{
+											"source": {
+												"name": "SrId",
+												"type": "Decimal",
+												"physicalType": "decimal",
+												"scale": 0,
+												"precision": 18
+											},
+											"sink": {
+												"name": "SrId",
+												"type": "Decimal",
+												"physicalType": "decimal",
+												"scale": 0,
+												"precision": 18
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_MOD_ART_NO",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_MOD_ART_NO",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_MOD_SERIAL_NO",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_MOD_SERIAL_NO",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_PROCESS_VER",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_PROCESS_VER",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_FMW_MERCURY",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_FMW_MERCURY",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_FMW_NIRO",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_FMW_NIRO",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_DEV_TYPE",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_DEV_TYPE",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_PROBE_TYPE",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_PROBE_TYPE",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_PROBE_SN",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_PROBE_SN",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_DATE",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_DATE",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_CS_SETTINGS",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_CS_SETTINGS",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_CS_DARK0",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_CS_DARK0",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_CS_DARK1",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_CS_DARK1",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_OFFSET",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_OFFSET",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_GAIN",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_GAIN",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_RAMP_IDX",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_RAMP_IDX",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_RAMP_W_X",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_RAMP_W_X",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_RAMP_W_Y",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_RAMP_W_Y",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_RAMP_W_Z",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_RAMP_W_Z",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_RAMP_R_X",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_RAMP_R_X",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_RAMP_R_Y",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_RAMP_R_Y",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_RAMP_R_Z",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_RAMP_R_Z",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_RAMP_G_X",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_RAMP_G_X",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_RAMP_G_Y",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_RAMP_G_Y",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_RAMP_G_Z",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_RAMP_G_Z",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_RAMP_B_X",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_RAMP_B_X",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_RAMP_B_Y",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_RAMP_B_Y",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_RAMP_B_Z",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_RAMP_B_Z",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_REF_EXT_R",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_REF_EXT_R",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_REF_EXT_G",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_REF_EXT_G",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_REF_EXT_B",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_REF_EXT_B",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_REF_INT_CS0",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_REF_INT_CS0",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_REF_INT_CS1",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_REF_INT_CS1",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_BL_IDX",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_BL_IDX",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_BL_EXT_X",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_BL_EXT_X",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_BL_EXT_Y",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_BL_EXT_Y",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_BL_EXT_Z",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_BL_EXT_Z",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_BL_INT_CS0_R",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_BL_INT_CS0_R",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_BL_INT_CS0_G",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_BL_INT_CS0_G",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_BL_INT_CS0_B",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_BL_INT_CS0_B",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_BL_INT_CS0_W",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_BL_INT_CS0_W",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_BL_INT_CS1_R",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_BL_INT_CS1_R",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_BL_INT_CS1_G",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_BL_INT_CS1_G",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_BL_INT_CS1_B",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_BL_INT_CS1_B",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PIC_FA_BL_INT_CS1_W",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "PIC_FA_BL_INT_CS1_W",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "Max_Current",
+												"type": "String",
+												"physicalType": "nchar"
+											},
+											"sink": {
+												"name": "Max_Current",
+												"type": "String",
+												"physicalType": "nchar"
+											}
+										},
+										{
+											"source": {
+												"name": "Max_PWM",
+												"type": "String",
+												"physicalType": "nchar"
+											},
+											"sink": {
+												"name": "Max_PWM",
+												"type": "String",
+												"physicalType": "nchar"
+											}
+										},
+										{
+											"source": {
+												"name": "XmlReportPath",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "XmlReportPath",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "SettingReportPath",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "SettingReportPath",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "ColorCalibrationDate",
+												"type": "DateTime",
+												"physicalType": "datetime"
+											},
+											"sink": {
+												"name": "ColorCalibrationDate",
+												"type": "DateTime",
+												"physicalType": "datetime"
+											}
+										},
+										{
+											"source": {
+												"name": "ColorCalibrationBy",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "ColorCalibrationBy",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "ColorCalibrationStatus",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "ColorCalibrationStatus",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "StartTime",
+												"type": "DateTime",
+												"physicalType": "datetime"
+											},
+											"sink": {
+												"name": "StartTime",
+												"type": "DateTime",
+												"physicalType": "datetime"
+											}
+										},
+										{
+											"source": {
+												"name": "EndTime",
+												"type": "DateTime",
+												"physicalType": "datetime"
+											},
+											"sink": {
+												"name": "EndTime",
+												"type": "DateTime",
+												"physicalType": "datetime"
+											}
+										}
+									],
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "DS_SqlTB_ColorCali",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DS_AzureSqlTB_ColorCali",
+									"type": "DatasetReference"
+								}
+							]
+						},
+						{
+							"name": "Update LastPipelineRunOn Date",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Calibration_Data_To_Azure_SQL",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "AzureSqlDatabase2",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "INSERT INTO SENSEX_LVX_Metadata (LastPipelineRunOn) VALUES ('@{variables('EndDate')}')",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						}
+					]
+				}
+			}
+		],
+		"variables": {
+			"StartDate": {
+				"type": "String"
+			},
+			"EndDate": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "LVX_Calibration_PPL"
+		},
+		"annotations": []
+	}
+}
