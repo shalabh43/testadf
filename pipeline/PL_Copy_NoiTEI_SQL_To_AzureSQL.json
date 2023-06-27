@@ -4,11 +4,17 @@
 		"description": "Copy calibration data from Noida TEI on premise SQL DB to Azure SQL DB",
 		"activities": [
 			{
-				"name": "Display_Calibration_To_Azure_SQL",
+				"name": "Calibration_Data_To_Azure_SQL",
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Set Max ColorCalibration Date",
+						"activity": "EndDate",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "StartDate",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -26,7 +32,7 @@
 					"source": {
 						"type": "SqlServerSource",
 						"sqlReaderQuery": {
-							"value": "SELECT [Id]\n      ,[SrId]\n      ,[PIC_FA_MOD_ART_NO]\n      ,[PIC_FA_MOD_SERIAL_NO]\n      ,[PIC_FA_PROCESS_VER]\n      ,[PIC_FA_FMW_MERCURY]\n      ,[PIC_FA_FMW_NIRO]\n      ,[PIC_FA_DEV_TYPE]\n      ,[PIC_FA_PROBE_TYPE]\n      ,[PIC_FA_PROBE_SN]\n      ,[PIC_FA_DATE]\n      ,[PIC_FA_CS_SETTINGS]\n      ,[PIC_FA_CS_DARK0]\n      ,[PIC_FA_CS_DARK1]\n      ,[PIC_FA_OFFSET]\n      ,[PIC_FA_GAIN]\n      ,[PIC_FA_RAMP_IDX]\n      ,[PIC_FA_RAMP_W_X]\n      ,[PIC_FA_RAMP_W_Y]\n      ,[PIC_FA_RAMP_W_Z]\n      ,[PIC_FA_RAMP_R_X]\n      ,[PIC_FA_RAMP_R_Y]\n      ,[PIC_FA_RAMP_R_Z]\n      ,[PIC_FA_RAMP_G_X]\n      ,[PIC_FA_RAMP_G_Y]\n      ,[PIC_FA_RAMP_G_Z]\n      ,[PIC_FA_RAMP_B_X]\n      ,[PIC_FA_RAMP_B_Y]\n      ,[PIC_FA_RAMP_B_Z]\n      ,[PIC_FA_REF_EXT_R]\n      ,[PIC_FA_REF_EXT_G]\n      ,[PIC_FA_REF_EXT_B]\n      ,[PIC_FA_REF_INT_CS0]\n      ,[PIC_FA_REF_INT_CS1]\n      ,[PIC_FA_BL_IDX]\n      ,[PIC_FA_BL_EXT_X]\n      ,[PIC_FA_BL_EXT_Y]\n      ,[PIC_FA_BL_EXT_Z]\n      ,[PIC_FA_BL_INT_CS0_R]\n      ,[PIC_FA_BL_INT_CS0_G]\n      ,[PIC_FA_BL_INT_CS0_B]\n      ,[PIC_FA_BL_INT_CS0_W]\n      ,[PIC_FA_BL_INT_CS1_R]\n      ,[PIC_FA_BL_INT_CS1_G]\n      ,[PIC_FA_BL_INT_CS1_B]\n      ,[PIC_FA_BL_INT_CS1_W]\n      ,[Max_Current]\n      ,[Max_PWM]\n      ,[XmlReportPath]\n      ,[SettingReportPath]\n      ,[ColorCalibrationDate]\n      ,[ColorCalibrationBy]\n      ,[ColorCalibrationStatus]\n      ,[StartTime]\n      ,[EndTime]\n  FROM [Nautilus_UCM_Test_Noida].[dbo].[TB_ColorCali] WHERE [ColorCalibrationDate] > '@{variables('Max ColorCalibration Date')}'",
+							"value": "SELECT [Id]\n      ,[SrId]\n      ,[PIC_FA_MOD_ART_NO]\n      ,[PIC_FA_MOD_SERIAL_NO]\n      ,[PIC_FA_PROCESS_VER]\n      ,[PIC_FA_FMW_MERCURY]\n      ,[PIC_FA_FMW_NIRO]\n      ,[PIC_FA_DEV_TYPE]\n      ,[PIC_FA_PROBE_TYPE]\n      ,[PIC_FA_PROBE_SN]\n      ,[PIC_FA_DATE]\n      ,[PIC_FA_CS_SETTINGS]\n      ,[PIC_FA_CS_DARK0]\n      ,[PIC_FA_CS_DARK1]\n      ,[PIC_FA_OFFSET]\n      ,[PIC_FA_GAIN]\n      ,[PIC_FA_RAMP_IDX]\n      ,[PIC_FA_RAMP_W_X]\n      ,[PIC_FA_RAMP_W_Y]\n      ,[PIC_FA_RAMP_W_Z]\n      ,[PIC_FA_RAMP_R_X]\n      ,[PIC_FA_RAMP_R_Y]\n      ,[PIC_FA_RAMP_R_Z]\n      ,[PIC_FA_RAMP_G_X]\n      ,[PIC_FA_RAMP_G_Y]\n      ,[PIC_FA_RAMP_G_Z]\n      ,[PIC_FA_RAMP_B_X]\n      ,[PIC_FA_RAMP_B_Y]\n      ,[PIC_FA_RAMP_B_Z]\n      ,[PIC_FA_REF_EXT_R]\n      ,[PIC_FA_REF_EXT_G]\n      ,[PIC_FA_REF_EXT_B]\n      ,[PIC_FA_REF_INT_CS0]\n      ,[PIC_FA_REF_INT_CS1]\n      ,[PIC_FA_BL_IDX]\n      ,[PIC_FA_BL_EXT_X]\n      ,[PIC_FA_BL_EXT_Y]\n      ,[PIC_FA_BL_EXT_Z]\n      ,[PIC_FA_BL_INT_CS0_R]\n      ,[PIC_FA_BL_INT_CS0_G]\n      ,[PIC_FA_BL_INT_CS0_B]\n      ,[PIC_FA_BL_INT_CS0_W]\n      ,[PIC_FA_BL_INT_CS1_R]\n      ,[PIC_FA_BL_INT_CS1_G]\n      ,[PIC_FA_BL_INT_CS1_B]\n      ,[PIC_FA_BL_INT_CS1_W]\n      ,[Max_Current]\n      ,[Max_PWM]\n      ,[XmlReportPath]\n      ,[SettingReportPath]\n      ,[ColorCalibrationDate]\n      ,[ColorCalibrationBy]\n      ,[ColorCalibrationStatus]\n      ,[StartTime]\n      ,[EndTime]\n  FROM [Nautilus_UCM_Test_Noida].[dbo].[TB_ColorCali] WHERE [ColorCalibrationDate] >= '@{variables('StartDate')}' AND [ColorCalibrationDate] < '@{variables('EndDate')}'",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -34,6 +40,10 @@
 					},
 					"sink": {
 						"type": "AzureSqlSink",
+						"preCopyScript": {
+							"value": "DELETE FROM TB_ColorCali\nWHERE [ColorCalibrationDate] >= '@{variables('StartDate')}'",
+							"type": "Expression"
+						},
 						"writeBehavior": "insert",
 						"sqlWriterUseTableLock": false,
 						"disableMetricsCollection": false
@@ -732,8 +742,8 @@
 				]
 			},
 			{
-				"name": "Max_ColorCalibrationDate",
-				"description": "Get Max ColorCalibrationDate from sink DB to apply incremental load",
+				"name": "Last_Pipeline_Run_On",
+				"description": "Get Max LastPipelineRunOn Date from sink DB to apply incremental load",
 				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
@@ -747,7 +757,10 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "SELECT MAX(ColorCalibrationDate) AS MaxColorCalibrationDate FROM TB_ColorCali",
+						"sqlReaderQuery": {
+							"value": "SELECT\n  CASE\n    WHEN MAX(LastPipelineRunOn) IS NULL THEN '1900-01-01 00:00:00.000'\n    ELSE MAX(LastPipelineRunOn)\n  END AS StartDate,\n  CAST(CAST(GETDATE() AS date) AS datetime) AS EndDate\nFROM SENSEX_LVX_Metadata",
+							"type": "Expression"
+						},
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -758,11 +771,11 @@
 				}
 			},
 			{
-				"name": "Set Max ColorCalibration Date",
+				"name": "EndDate",
 				"type": "SetVariable",
 				"dependsOn": [
 					{
-						"activity": "Max_ColorCalibrationDate",
+						"activity": "Last_Pipeline_Run_On",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -777,16 +790,82 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "Max ColorCalibration Date",
+					"variableName": "EndDate",
 					"value": {
-						"value": "@if(equals(activity('Max_ColorCalibrationDate').output.firstRow.MaxColorCalibrationDate, null), '', activity('Max_ColorCalibrationDate').output.firstRow.MaxColorCalibrationDate)",
+						"value": "@if(equals(activity('Last_Pipeline_Run_On').output.firstRow.EndDate, null), '', activity('Last_Pipeline_Run_On').output.firstRow.EndDate)",
 						"type": "Expression"
 					}
+				}
+			},
+			{
+				"name": "StartDate",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Last_Pipeline_Run_On",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "StartDate",
+					"value": {
+						"value": "@if(equals(activity('Last_Pipeline_Run_On').output.firstRow.StartDate, null), '', activity('Last_Pipeline_Run_On').output.firstRow.StartDate)",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Update LastPipelineRunOn Date",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Calibration_Data_To_Azure_SQL",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase2",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "INSERT INTO SENSEX_LVX_Metadata (LastPipelineRunOn) VALUES ('@{variables('EndDate')}')",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
 				}
 			}
 		],
 		"variables": {
-			"Max ColorCalibration Date": {
+			"StartDate": {
+				"type": "String"
+			},
+			"EndDate": {
 				"type": "String"
 			}
 		},
