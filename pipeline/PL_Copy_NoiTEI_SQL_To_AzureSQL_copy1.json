@@ -111,7 +111,7 @@
 					},
 					"ifFalseActivities": [
 						{
-							"name": "Set variable1",
+							"name": "Pipeline Output Message",
 							"type": "SetVariable",
 							"dependsOn": [],
 							"policy": {
@@ -131,10 +131,10 @@
 								"variableName": "pipelineReturnValue",
 								"value": [
 									{
-										"key": "SetARetVal",
+										"key": "Output",
 										"value": {
 											"type": "String",
-											"content": "Return Value"
+											"content": "Pipeline already run"
 										}
 									}
 								],
