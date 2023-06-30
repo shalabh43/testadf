@@ -79,7 +79,7 @@
 								"sink": {
 									"type": "AzureSqlSink",
 									"preCopyScript": {
-										"value": "@{concat(item().PreCopyScript,'''',item().LastSuccessPipelineRunDate,'''')}",
+										"value": "@{if(equals(item().IsFullLoad, true),item().PreCopyScript,concat(item().PreCopyScript,'''',item().LastSuccessPipelineRunDate,''''))}",
 										"type": "Expression"
 									},
 									"writeBehavior": "insert",
