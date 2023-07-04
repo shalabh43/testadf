@@ -1,0 +1,24 @@
+{
+	"name": "Trigger_1AMUTC",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "PL_Copy_NoiTEI_SQL_To_AzureSQL",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Day",
+				"interval": 1,
+				"startTime": "2023-07-05T01:00:00Z",
+				"timeZone": "UTC"
+			}
+		}
+	}
+}
